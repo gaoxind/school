@@ -2,29 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\WebContent;
-use App\WebInform;
+use App\course_all;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Menu\Laravel\Facades\Menu;
 
-class IndexController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $major=[
+        '专业1'=>'专业1',
+        '专业2'=>'专业2',
+        '专业3'=>'专业3',
+        '专业4'=>'专业4',
+    ];
     public function index()
     {
-       $auth=Auth::check();
-  //     Auth::logout();
-        //判断是否登录
-        $user='';
-        $info=WebInform::find(1);
-        if($auth){
-            //登录状态获取登录用户
-            $user = Auth::user();
+        //判断是否有用户登录
+        $auth=Auth::check();
+        if(!$auth or Auth::user()->type!=1){
+
+            return response('请返回登录',200);
         }
         $menu=Menu::new()
             ->addClass('nav navbar-nav')
@@ -37,13 +40,12 @@ class IndexController extends Controller
             ->link(config('menu.title.7.url'), config('menu.title.7.name'))
             ->wrap('div.collapse.navbar-collapse')
             ->setActive(config('menu.title.1.url'));
-       return view('index/index',[
-           'menu'=>$menu,
-           'auth'=>$auth,
-           'user'=>$user,
-           'info'=>$info
-       ]);
-
+        $course=course_all::where('user_id',Auth::id())->first();
+        return view('student/index',[
+            'menu'=>$menu,
+            'course'=>$course,
+            'major'=>$this->major
+            ]);
     }
 
     /**
@@ -66,6 +68,7 @@ class IndexController extends Controller
     {
         //
     }
+
     /**
      * Display the specified resource.
      *

@@ -20,9 +20,9 @@
             <div class="jumbotron">
                 <h3>登录成功</h3>
                 @if($user->type==1)
-                    <p>{{$user->name}},你好！你当前的身份为学生，将不展示网站后台，</p>
+                    <p>{{$user->name}},你好！你当前的身份为学生！</p>
                 @else
-                    <p>{{$user->name}},你好！你当前的身份为管理员，将展示网站后台，</p>
+                    <p>{{$user->name}},你好！你当前的身份为辅导员！</p>
                 @endif
                 <p><a class="btn btn-primary" href="{{route('logout')}}" role="button"
                       onclick="event.preventDefault();
@@ -63,11 +63,7 @@
     <div class="col-md-8" style="margin-top: 30px">
         <div class="jumbotron">
             <h3 class="text-center">网站通知</h3>
-            <p>2019年4月25日上午，“北京大学与五四运动——五四爱国运动100周年纪念
-                展”在校史馆开幕。展览由北京大学党委宣传部、校史馆、档案馆联合举办
-                ，是改造后重新开放的校史馆的首个专题展览。北京大学党委书记邱水平
-                、校长郝平为纪念展剪彩。党委副书记刘玉村，副校长田刚、陈宝剑出席
-                开幕式。仪式由党委常委、宣传部部长蒋朗朗主持。</p>
+            <p>{!! $info->text !!}</p>
         </div>
     </div>
 </div>

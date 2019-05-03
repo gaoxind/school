@@ -29,7 +29,7 @@ return [
             'name' => '后台登录'
         ],
         6 => [
-            'url' => 'index',
+            'url' => 'student',
             'name' => '学生信息'
         ],
         7 => [
