@@ -9,19 +9,19 @@
 return [
     'title' => [
         1 => [
-            'url' => 'index',
+            'url' => '/',
             'name' => '首页'
         ],
         2 => [
-            'url' => 'index',
+            'url' => '/',
             'name' => '网站通知'
         ],
         3 => [
-            'url' => 'index',
+            'url' => '/',
             'name' => '教学资源'
         ],
        4 => [
-            'url' => 'index',
+            'url' => 'student',
             'name' => '成绩查询'
         ],
         5 => [
@@ -33,8 +33,8 @@ return [
             'name' => '学生信息'
         ],
         7 => [
-            'url' => 'index',
-            'name' => '网站记录'
+            'url' => 'scholarship',
+            'name' => '奖学金申请'
         ],
     ]
 ];

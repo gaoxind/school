@@ -92,7 +92,7 @@ class CourseAllController extends Controller
         $grid->id('Id');
         $grid->column('user.name','姓名');
         $grid->column('userInfo.class','班级')->display(function ($class){
-            return Classes::find($class);
+            return Classes::find($class)?Classes::find($class)->name:'';
         });
         $grid->major('专业');
         $grid->courseNameOne('课程1');
@@ -149,9 +149,7 @@ class CourseAllController extends Controller
     protected function form()
     {
         $form = new Form(new course_all);
-
-        $form->select('user.name', '姓名')->options(User::pluck('name','id'));
-        $form->select('userInfo.class','班级')->options(Classes::pluck('name','id'));
+        $form->select('user_id', '姓名')->options(User::pluck('name','id'))->default(1);
         $form->text('major','专业');
         $form->select('courseNameOne', '课程1')->options($this->major)->default(1);
         $form->number('courseOne', '成绩');
@@ -163,8 +161,8 @@ class CourseAllController extends Controller
         $form->number('addCourse', '加分');
         $form->number('subCourse', '减分');
         $states = [
-            'on'  => ['value' => 1, 'text' => '初审', 'color' => 'danger'],
-            'off' => ['value' => 0, 'text' => '复审', 'color' => 'success'],
+            'on'  => ['value' => 1, 'text' => '违纪', 'color' => 'danger'],
+            'off' => ['value' => 0, 'text' => '无', 'color' => 'success'],
         ];
         $form->switch('break', '违纪')->states($states);
 

@@ -16,3 +16,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/student', 'StudentController');
+Route::get('/scholarship', 'StudentController@scholarship');
+Route::post('/scholarship/form', 'StudentController@forms');
+Route::get('/ceshi', function (){
+    return view('student/show');
+});

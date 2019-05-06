@@ -24,7 +24,11 @@
                 @else
                     <p>{{$user->name}},你好！你当前的身份为辅导员！</p>
                 @endif
-                <p><a class="btn btn-primary" href="{{route('logout')}}" role="button"
+                <p>
+                    <a class="btn btn-primary" href="{{url('student/'.$user->id)}}" role="button">更改信息 </a>
+
+
+                    <a class="btn btn-primary" href="{{route('logout')}}" role="button"
                       onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">注销</a></p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

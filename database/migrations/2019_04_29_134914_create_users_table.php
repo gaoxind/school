@@ -19,6 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('class');
             $table->string('qq');
             $table->integer('sex');
+            $table->string('birth');
+            $table->string('census');
+            $table->string('nation');
+            $table->string('politics');
             $table->timestamps();
         });
     }

@@ -39,4 +39,12 @@ class User extends Authenticatable
     public function userInfo(){
         return $this->hasOne(UserInfo::class);
     }
+
+    public function courseAll(){
+        return $this->hasOne(course_all::class);
+    }
+
+    public function scholarship(){
+        return $this->hasOne(UserScholarship::class);
+    }
 }

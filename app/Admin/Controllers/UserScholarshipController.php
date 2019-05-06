@@ -6,6 +6,7 @@ use App\Scholarship;
 use App\UserScholarship;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -81,22 +82,31 @@ class UserScholarshipController extends Controller
     protected function grid()
     {
         $grid = new Grid(new UserScholarship);
-
         $grid->id('Id');
         $grid->column('user.name','姓名');
         $grid->column('scholarship.name');
         $grid->required_course('必修课程');
         $grid->optional_course('选修课');
-        $states = [
-            'on'  => ['value' => 1, 'text' => '初审', 'color' => 'danger'],
-            'off' => ['value' => 2, 'text' => '复审', 'color' => 'success'],
-        ];
-
+        if(Admin::user()->isAdministrator()){
+            $states = [
+                'on'  => ['value' => 1, 'text' => '初审', 'color' => 'danger'],
+                'off' => ['value' => 2, 'text' => '复审', 'color' => 'success'],
+            ];
+        }else{
+            $states = [
+                'on'  => ['value' => 0, 'text' => '提审', 'color' => 'danger'],
+                'off' => ['value' => 1, 'text' => '初审', 'color' => 'success'],
+            ];
+        }
         $grid->status()->switch($states);
         $grid->created_at('提交时间');
         $grid->updated_at('更新时间');
         $grid->disableCreateButton();
+        if(Admin::user()->isAdministrator()){
         $grid->model()->whereNotIn('status', [0]);
+        }else{
+            $grid->model()->whereNotIn('status', [2]);
+        }
         return $grid;
     }
 

@@ -17,11 +17,11 @@ class CreateCourseAllsTable extends Migration
             $table->bigIncrements('id');
             $table->string('major');
             $table->integer('user_id');
-            $table->integer('courseNameOne');
+            $table->string('courseNameOne');
             $table->integer('courseOne');
-            $table->integer('courseNameTwo');
+            $table->string('courseNameTwo');
             $table->integer('courseTwo');
-            $table->integer('courseNameThree');
+            $table->string('courseNameThree');
             $table->integer('courseThree');
             $table->integer('MoralCourse');
             $table->integer('addCourse');

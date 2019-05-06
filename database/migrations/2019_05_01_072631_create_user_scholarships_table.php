@@ -15,6 +15,7 @@ class CreateUserScholarshipsTable extends Migration
     {
         Schema::create('user_scholarships', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('type');
             $table->integer('user_id');
             $table->integer('scholarship_id');
             $table->integer('required_course');

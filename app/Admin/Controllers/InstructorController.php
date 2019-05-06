@@ -25,8 +25,8 @@ class InstructorController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('辅导员管理')
+            ->description('首页')
             ->body($this->grid());
     }
 
@@ -40,7 +40,7 @@ class InstructorController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
+            ->header('辅导员管理')
             ->description('description')
             ->body($this->detail($id));
     }
@@ -55,7 +55,7 @@ class InstructorController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header('辅导员管理')
             ->description('description')
             ->body($this->form()->edit($id));
     }
@@ -69,7 +69,7 @@ class InstructorController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header('辅导员管理')
             ->description('description')
             ->body($this->form());
     }
