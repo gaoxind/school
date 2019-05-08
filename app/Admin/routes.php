@@ -14,11 +14,12 @@ Route::group([
     $router->resource('student','UserController');
     $router->resource('instructor','InstructorController');
     $router->resource('class','ClassController');
-    $router->resource('scholarship','ScholarshipController');
+    $router->resource('scholarship','AdminUserInfoController');
     $router->resource('user_scholarship','UserScholarshipController');
     $router->resource('web_inform','WebInformController');
     $router->resource('web_content','WebContentController');
     $router->resource('course','CourseController');
     $router->resource('award','AwardController');
     $router->resource('course_all','CourseAllController');
+    $router->get('index','CourseAllController@root');
 });

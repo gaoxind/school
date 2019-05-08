@@ -138,10 +138,10 @@ protected $nations = ["汉族","蒙古族","回族","藏族","维吾尔族","苗
         });
         $grid->column('userInfo.birth', '生日');
         $pca=$this->pca;
+        $nation=$this->nations;
         $grid->column('userInfo.census', '户籍')->display(function ($cen) use ($pca){
             return $cen?($pca[$cen]):'';
         });
-        $nation=$this->nations;
         $grid->column('userInfo.nation', '民族')->display(function ($nat) use ($nation){
             return $nat?$nation[$nat]:'';
         });
@@ -166,11 +166,36 @@ protected $nations = ["汉族","蒙古族","回族","藏族","维吾尔族","苗
         $show = new Show(User::findOrFail($id));
 
         $show->id('Id');
-        $show->name('Name');
-        $show->type('Type');
-        $show->email('Email');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->name('姓名');
+        $show->email('邮箱');
+        $pca=$this->pca;
+        $nation=$this->nations;
+        $show->userInfo('详细信息',function ($info) use ($pca,$nation){
+            $info->setResource('/admin/student');
+            $info->class()->as(function ($class) {
+                $name = Classes::find($class);
+                return $name ? $name->name : '';
+            });
+            $info->qq();
+            $info->sex('性别')->as(function ($sex) {
+                if ($sex == 0) {
+                    return '女';
+                }
+                return '男';
+            });
+            $info->birth('出生日期');
+            $info->census('户籍')->as(function ($cen) use ($pca){
+                return $cen?($pca[$cen]):'';
+            });
+            $info->nation('民族')->as(function ($nat) use ($nation){
+                return $nat?$nation[$nat]:'';
+            });
+            $info->politics('政治面貌')->as(function ($pol){
+                $arr=['无' => '无', '团员' => '团员', '党员' => '党员'];
+                return $pol?$arr[$pol]:'';
+            });;
+        });
+
 
         return $show;
     }
@@ -188,12 +213,12 @@ protected $nations = ["汉族","蒙古族","回族","藏族","维吾尔族","苗
         $form->email('email', '邮箱');
         $form->password('password', '密码');
         $form->select('userInfo.class', '班级')->options(Classes::pluck('name', 'id'))->default(1);
-        $form->text('userInfo.qq', 'qq');
+        $form->number('userInfo.qq', 'QQ')->default(57415481);
         $form->select('userInfo.sex', '性别')->options(['女', '男']);
         $form->select('userInfo.census', '户籍')->options($this->pca)->default(1);
-        $form->date('userInfo.birth', '出生年月');
+        $form->date('userInfo.birth', '出生年月')->default('1996-10-20');
         $form->select('userInfo.nation', '民族')->options($this->nations)->default(1);
-        $form->select('userInfo.politics', '政治面貌')->options(['无' => '无', '团员' => '团员', '党员' => '党员'])->default(1);
+        $form->select('userInfo.politics', '政治面貌')->options(['无' => '无', '团员' => '团员', '党员' => '党员'])->default('团员');
         $form->saving(function (Form $form) {
             $form->password = Hash::make($form->password);
         });

@@ -16,12 +16,13 @@ use Encore\Admin\Show;
 class CourseAllController extends Controller
 {
     use HasResourceActions;
-    public $major=[
-        '专业1'=>'专业1',
-        '专业2'=>'专业2',
-        '专业3'=>'专业3',
-        '专业4'=>'专业4',
-        ];
+    public $major = [
+        '专业1' => '专业1',
+        '专业2' => '专业2',
+        '专业3' => '专业3',
+        '专业4' => '专业4',
+    ];
+
     /**
      * Index interface.
      *
@@ -34,6 +35,11 @@ class CourseAllController extends Controller
             ->header('成绩管理')
             ->description('description')
             ->body($this->grid());
+    }
+
+    public function root()
+    {
+        return redirect('/');
     }
 
     /**
@@ -90,9 +96,9 @@ class CourseAllController extends Controller
         $grid = new Grid(new course_all);
 
         $grid->id('Id');
-        $grid->column('user.name','姓名');
-        $grid->column('userInfo.class','班级')->display(function ($class){
-            return Classes::find($class)?Classes::find($class)->name:'';
+        $grid->column('user.name', '姓名');
+        $grid->column('userInfo.class', '班级')->display(function ($class) {
+            return Classes::find($class) ? Classes::find($class)->name : '';
         });
         $grid->major('专业');
         $grid->courseNameOne('课程1');
@@ -104,8 +110,8 @@ class CourseAllController extends Controller
         $grid->MoralCourse('体育分数');
         $grid->addCourse('加分');
         $grid->subCourse('减分');
-        $grid->break('违纪')->display(function ($break){
-            return $break?'违纪':'无';
+        $grid->break('违纪')->display(function ($break) {
+            return $break ? '违纪' : '无';
         });
         $grid->created_at('创建时间');
         $grid->updated_at('添加时间');
@@ -124,17 +130,22 @@ class CourseAllController extends Controller
         $show = new Show(course_all::findOrFail($id));
 
         $show->id('Id');
-        $show->user_id('User id');
-        $show->courseNameOne('CourseNameOne');
-        $show->courseOne('CourseOne');
-        $show->courseNameTwo('CourseNameTwo');
-        $show->courseTwo('CourseTwo');
-        $show->courseNameThree('CourseNameThree');
-        $show->courseThree('CourseThree');
-        $show->MoralCourse('MoralCourse');
-        $show->addCourse('AddCourse');
-        $show->subCourse('SubCourse');
-        $show->break('Break');
+        $show->user('学生信息', function ($user) {
+            $user->setResource('/admin/student');
+            $user->name('姓名');
+        });
+        $show->courseNameOne('课程1');
+        $show->courseOne('成绩');
+        $show->courseNameTwo('课程2');
+        $show->courseTwo('成绩');
+        $show->courseNameThree('课程3');
+        $show->courseThree('成绩');
+        $show->MoralCourse('体育成绩');
+        $show->addCourse('加分');
+        $show->subCourse('减分');
+        $show->break('违纪')->as(function ($break) {
+            return $break ? '违纪' : '无';
+        });;
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -149,8 +160,8 @@ class CourseAllController extends Controller
     protected function form()
     {
         $form = new Form(new course_all);
-        $form->select('user_id', '姓名')->options(User::pluck('name','id'))->default(1);
-        $form->text('major','专业');
+        $form->select('user_id', '姓名')->options(User::pluck('name', 'id'))->default(1);
+        $form->text('major', '专业');
         $form->select('courseNameOne', '课程1')->options($this->major)->default(1);
         $form->number('courseOne', '成绩');
         $form->select('courseNameTwo', '课程2')->options($this->major)->default(1);
@@ -161,7 +172,7 @@ class CourseAllController extends Controller
         $form->number('addCourse', '加分');
         $form->number('subCourse', '减分');
         $states = [
-            'on'  => ['value' => 1, 'text' => '违纪', 'color' => 'danger'],
+            'on' => ['value' => 1, 'text' => '违纪', 'color' => 'danger'],
             'off' => ['value' => 0, 'text' => '无', 'color' => 'success'],
         ];
         $form->switch('break', '违纪')->states($states);

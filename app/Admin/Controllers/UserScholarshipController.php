@@ -121,8 +121,25 @@ class UserScholarshipController extends Controller
         $show = new Show(UserScholarship::findOrFail($id));
 
         $show->id('Id');
-
-
+        $show->user('学生信息',function ($user){
+            $user->setResource('/admin/student');
+            $user->name('姓名');
+        });
+        $show->scholarship('奖项信息',function ($ship){
+            $ship->setResource('/admin/scholarship');
+            $ship->name('名称');
+        });
+        $show->required_course('必修课程');
+        $show->optional_course('选修课');
+        $show->status('进度')->as(function ($status){
+           if($status==1){
+               return '已完成初审';
+           } elseif ($status==2){
+               return '已完成复审';
+           }else{
+               return '已提交';
+           }
+        });
         return $show;
     }
 
