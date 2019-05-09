@@ -97,7 +97,7 @@ class AdminUserInfoController extends Controller
         });
         $nation=$this->nations;
         $grid->nation('民族')->display(function ($nat) use ($nation){
-        return $nat?$nation[$nat]:'';
+        return array_key_exists($nat,$nation)?$nation[$nat]:'';
     });
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
@@ -127,7 +127,7 @@ class AdminUserInfoController extends Controller
         });
         $nation=$this->nations;
         $show->nation('民族')->as(function ($nat) use ($nation){
-            return $nat?$nation[$nat]:'';
+            return array_key_exists($nat,$nation)?$nation[$nat]:'';
         });
         $show->created_at('Created at');
         $show->updated_at('Updated at');

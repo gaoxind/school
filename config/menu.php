@@ -17,19 +17,19 @@ return [
             'name' => '网站通知'
         ],
         3 => [
-            'url' => '/',
-            'name' => '教学资源'
+            'url' => '/resource',
+            'name' => '教学资源下载'
         ],
        4 => [
-            'url' => 'student',
+            'url' => '/student',
             'name' => '成绩查询'
         ],
         5 => [
-            'url' => 'admin',
+            'url' => '/admin',
             'name' => '后台登录'
         ],
         6 => [
-            'url' => 'student',
+            'url' => '/student/info',
             'name' => '学生信息'
         ],
         7 => [
